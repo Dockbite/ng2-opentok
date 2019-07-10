@@ -1,4 +1,4 @@
-export * from "./dist/opentok.module";
+export * from "./dist/src/opentok.module";
 
 
 

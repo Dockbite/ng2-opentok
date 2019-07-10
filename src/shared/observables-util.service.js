@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var rxjs_1 = require("rxjs");
+var rxjs_1 = require("rxjs-compat");
 var ObservablesUtil = (function () {
     function ObservablesUtil() {
     }

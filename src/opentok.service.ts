@@ -3,7 +3,7 @@ import {OTSession, SESSION_EVENTS} from "./models/session.model";
 import {OTPublisher, PUBLISHER_EVENTS} from "./models/publisher.model";
 import {OTSubscriber} from "./models/subscriber.model";
 import {OTSignal} from "./models/signal.model";
-import {Observable} from "rxjs";
+import {Observable} from "rxjs-compat";
 import {OpentokConfig} from "./opentok.config";
 import {OTStreamEvent} from "./models/events/stream-event.model";
 import {OTSessionDisconnectEvent} from "./models/events/session-disconnect-event.model";
@@ -75,7 +75,7 @@ export class OpentokService {
     }
 
     onIncomingCall(subscriberTag?: string, subscriberProperties?: {}): Observable<OTStreamEvent> {
-        return this._session.on(SESSION_EVENTS.streamCreated).do((event: OTStreamEvent) => {
+        return this._session.on<OTStreamEvent>(SESSION_EVENTS.streamCreated).do((event: OTStreamEvent) => {
             this._subscriber = this._session.subscribeToStream(event.stream, subscriberTag, subscriberProperties);
             this._isVideoActive = event.stream.hasVideo();
         });
@@ -90,7 +90,7 @@ export class OpentokService {
     }
 
     onNetworkFailedForPublisher(): Observable<OTSessionDisconnectEvent> {
-        return this._session.on(SESSION_EVENTS.sessionDisconnected).filter((event: OTSessionDisconnectEvent) => {
+        return this._session.on<OTSessionDisconnectEvent>(SESSION_EVENTS.sessionDisconnected).filter((event: OTSessionDisconnectEvent) => {
             return event.isNetworkDisconnected();
         });
     }
@@ -100,7 +100,7 @@ export class OpentokService {
     }
 
     onVideoChanged(): Observable<OTStreamPropertyChangedEvent> {
-        return this._session.on(SESSION_EVENTS.streamPropertyChanged)
+        return this._session.on<OTStreamPropertyChangedEvent>(SESSION_EVENTS.streamPropertyChanged)
             .filter((event: OTStreamPropertyChangedEvent) => {
                 return event.hasVideoChanged();
             }).do((event: OTStreamPropertyChangedEvent) => {
@@ -109,7 +109,7 @@ export class OpentokService {
     }
 
     onAudioChanged(): Observable<OTStreamPropertyChangedEvent> {
-        return this._session.on(SESSION_EVENTS.streamPropertyChanged)
+        return this._session.on<OTStreamPropertyChangedEvent> (SESSION_EVENTS.streamPropertyChanged)
             .filter((event: OTStreamPropertyChangedEvent) => {
                 return event.hasAudioChanged();
             });
@@ -136,7 +136,7 @@ export class OpentokService {
     }
 
     onOpenMediaAccessDialog(): Observable<OTEvent> {
-        return this._publisher.on(PUBLISHER_EVENTS.accessDialogOpened);
+        return this._publisher.on<OTEvent>(PUBLISHER_EVENTS.accessDialogOpened);
     }
 
     onClosedMediaAccessDialog(): Observable<OTEvent> {

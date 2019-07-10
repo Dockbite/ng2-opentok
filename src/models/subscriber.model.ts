@@ -1,4 +1,4 @@
-import {Observable} from "rxjs";
+import {Observable} from "rxjs-compat";
 import {ObservablesUtil} from "../shared/observables-util.service";
 import {OTEvent} from "./events/event.model";
 import {IOTEventListener} from "../shared/event-listener.interface";

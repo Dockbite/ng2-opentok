@@ -1,4 +1,4 @@
-import {Observable, Observer} from "rxjs";
+import {Observable, Observer} from "rxjs-compat";
 
 export class ObservablesUtil {
 

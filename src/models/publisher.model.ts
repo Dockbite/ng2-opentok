@@ -1,4 +1,4 @@
-import {Observable} from "rxjs";
+import {Observable} from "rxjs-compat";
 import {OTSession} from "./session.model";
 import {ObservablesUtil} from "../shared/observables-util.service";
 import {OTEvent} from "./events/event.model";
@@ -64,9 +64,9 @@ export class OTPublisher implements IOTEventListener {
     }
 
     //https://tokbox.com/developer/sdks/js/reference/Publisher.html#on
-    on(event?: string, context?: Object): Observable<OTEventBase> {
+    on<T extends OTEventBase = OTEventBase>(event?: string, context?: Object): Observable<T> {
         return ObservablesUtil.getObservableEvent(this.opentokPublisher, 'on', event, context).map((e) => {
-            return this._mapEvent(event, e);
+            return this._mapEvent(event, e) as T;
         });
     }
 
